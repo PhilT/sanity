@@ -1,18 +1,18 @@
 require 'logger'
 
 class Build < Struct.new(:working_dir, :branch)
-
+  APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
   attr_reader :log
 
   def initialize(struct)
     super
-    @log = Logger.new('log/build.log')
+    @log = Logger.new(File.join(APP_ROOT, 'log/build.log'))
   end
 
   def run
     return unless run?
     log.info "Starting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
-    cucumber = File.exists?('features') ? 'cucumber' : ''
+    cucumber = File.exists?(File.join(APP_ROOT, 'features')) ? 'cucumber' : ''
     commands = [
       'rake gems:install RAILS_ENV=test',
       'rake db:migrate db:test:prepare default #{cucumber}'
@@ -22,7 +22,7 @@ class Build < Struct.new(:working_dir, :branch)
       success = rake(cmd)
       break unless success
     end
-    if success?
+    if success
       log.info 'BUILD SUCCESSFUL!'
     else
       log.error 'BUILD FAILED!'

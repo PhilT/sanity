@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
+require 'rubygems'
+require 'daemons'
 require 'lib/build'
 
-build = Build.new('/home/phil/github/wheel2')
+Daemons.run_proc('build_runner') do
 
-loop do
-  build.run
-  sleep(30)
+  build = Build.new('/home/phil/github/wheel2')
+
+  loop do
+    build.run
+    sleep(30)
+  end
 end
 
