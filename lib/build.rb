@@ -2,7 +2,7 @@ class Build < Struct.new(:working_dir, :branch)
 
   def run
     return unless run?
-    log "Starting build at #{Time.now.to_s}..."
+    log "\nStarting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
     cucumber = File.exists?('features') ? 'cucumber' : ''
     commands = [
       'rake gems:install RAILS_ENV=test',
@@ -18,16 +18,12 @@ class Build < Struct.new(:working_dir, :branch)
 
 private
   def run?
-    cmd = "cd #{working_dir} && git pull origin #{branch || 'master'}"
-    log cmd
-    output = `#{cmd}`
-    log output, 'GIT '
-    output.match(/Already up-to-date./).nil?
+    `#{cd #{working_dir} && git pull origin #{branch || 'master'}}`.match(/Already up-to-date./).nil?
   end
 
   def rake(cmd)
     cmd = "cd #{working_dir} && #{cmd} 2>&1"
-    log cmd
+    log cmd, 'RUN '
     output = `#{cmd}`
     exitstatus = $?.exitstatus
     log output, 'RAKE'
@@ -35,7 +31,7 @@ private
   end
 
   def log(output, cmd = nil)
-    puts "[#{cmd}]#{output}"
+    puts cmd ? "[#{cmd}] " : '' + "#{output}"
   end
 end
 
