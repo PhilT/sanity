@@ -13,8 +13,8 @@ ActiveRecord::Schema.define(:version => 20100203025923) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
-    t.string   "working_dir"
-    t.string   "git_repo"
+    t.string   "path"
+    t.string   "git"
     t.string   "branch"
     t.datetime "created_at"
     t.datetime "updated_at"

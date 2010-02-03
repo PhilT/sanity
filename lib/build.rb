@@ -1,18 +1,25 @@
+require 'active_record'
+require 'yaml'
 require 'logger'
 
-class Build < Struct.new(:working_dir, :branch)
-  APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
-  attr_reader :log
+APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
+require File.join(APP_ROOT, 'app/models/project')
 
-  def initialize(struct)
-    super
+class Build
+  attr_reader :log, :project
+
+  def initialize
     @log = Logger.new(File.join(APP_ROOT, 'log/build.log'))
+    db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['development']
+    db_config['database'] = File.join(APP_ROOT, db_config['database'])
+    ActiveRecord::Base.establish_connection(db_config)
+    @project = Project.first
   end
 
   def run
     return unless run?
-    log.info "Starting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
-    cucumber = File.exists?(File.join(APP_ROOT, 'features')) ? 'cucumber' : ''
+    log.info "Running build..."
+    cucumber = File.exists?(File.join(project.path, 'features')) ? 'cucumber' : ''
     commands = [
       'rake gems:install RAILS_ENV=test',
       'rake db:migrate db:test:prepare default #{cucumber}'
@@ -31,12 +38,13 @@ class Build < Struct.new(:working_dir, :branch)
 
 private
   def run?
-    log.info 'Checking Git...'
-    `cd #{working_dir} && git pull origin #{branch || 'master'}`.match(/Already up-to-date./).nil?
+    run = `cd #{project.path} && git pull origin #{project.branch || 'master'}`.match(/Already up-to-date./).nil?
+    log.info run ? 'Code pushed to Git.' : 'No changes in Git.'
+    run
   end
 
   def rake(cmd)
-    cmd = "cd #{working_dir} && #{cmd} 2>&1"
+    cmd = "cd #{project.path} && #{cmd} 2>&1"
     log.info cmd
     output = `#{cmd}`
     exitstatus = $?.exitstatus

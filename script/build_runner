@@ -5,11 +5,11 @@ require 'lib/build'
 
 Daemons.run_proc('build_runner') do
 
-  build = Build.new('/home/phil/github/wheel2')
+  build = Build.new
 
   loop do
     build.run
-    sleep(30)
+    sleep(360)
   end
 end
 
