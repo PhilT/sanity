@@ -18,7 +18,7 @@ class Build < Struct.new(:working_dir, :branch)
 
 private
   def run?
-    `#{cd #{working_dir} && git pull origin #{branch || 'master'}}`.match(/Already up-to-date./).nil?
+    `cd #{working_dir} && git pull origin #{branch || 'master'}`.match(/Already up-to-date./).nil?
   end
 
   def rake(cmd)
@@ -31,7 +31,7 @@ private
   end
 
   def log(output, cmd = nil)
-    puts cmd ? "[#{cmd}] " : '' + "#{output}"
+    puts (cmd ? "[#{cmd}] " : '') + "#{output}"
   end
 end
 
