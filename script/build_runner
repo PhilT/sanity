@@ -2,6 +2,6 @@
 #require 'rubygems'
 require 'lib/build'
 
-build = Build.new('/home/phil/temp_git/wheel2')
+build = Build.new('/home/phil/github/wheel2')
 build.run
 

@@ -9,12 +9,12 @@ class Build < Struct.new(:working_dir, :branch)
       'default'
     ]
     commands << 'cucumber' if File.exists?('features')
-
+    failed = true
     commands.each do |cmd|
       failed = rake(cmd)
       break if failed
     end
-    log 'BUILD ' + failed ? 'FAILED!' : 'PASSED!'
+    log 'BUILD ' + (failed ? 'FAILED!' : 'PASSED!')
   end
 
 private
@@ -32,6 +32,7 @@ private
     output = `#{cmd}`
     exitstatus = $?.exitstatus
     log output, 'RAKE'
+    log "exitstatus=#{exitstatus}"
     exitstatus
   end
 
