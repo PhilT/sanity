@@ -5,7 +5,8 @@ class Build < Struct.new(:working_dir, :branch)
     log "Starting build at #{Time.now.to_s}..."
     commands = [
       'gems:install RAILS_ENV=test',
-      'db:migrate && db:test:prepare',
+      'db:migrate',
+      'db:test:prepare',
       'default'
     ]
     commands << 'cucumber' if File.exists?('features')
