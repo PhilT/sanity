@@ -11,7 +11,7 @@ class Build < Struct.new(:working_dir, :branch)
 
   def run
     return unless run?
-    log.info "\nStarting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
+    log.info "Starting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
     cucumber = File.exists?('features') ? 'cucumber' : ''
     commands = [
       'rake gems:install RAILS_ENV=test',
@@ -37,10 +37,10 @@ private
 
   def rake(cmd)
     cmd = "cd #{working_dir} && #{cmd} 2>&1"
-    log.info cmd, 'RUN '
+    log.info cmd
     output = `#{cmd}`
     exitstatus = $?.exitstatus
-    log.info output, 'RAKE'
+    log.info output
     exitstatus == 0
   end
 end
