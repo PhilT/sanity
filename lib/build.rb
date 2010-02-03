@@ -1,8 +1,17 @@
+require 'logger'
+
 class Build < Struct.new(:working_dir, :branch)
+
+  attr_reader :log
+
+  def initialize(struct)
+    super
+    @log = Logger.new('log/build.log')
+  end
 
   def run
     return unless run?
-    log "\nStarting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
+    log.info "\nStarting build at #{Time.now.strftime("%Y-%m-%d %H:%M")}..."
     cucumber = File.exists?('features') ? 'cucumber' : ''
     commands = [
       'rake gems:install RAILS_ENV=test',
@@ -13,25 +22,26 @@ class Build < Struct.new(:working_dir, :branch)
       success = rake(cmd)
       break unless success
     end
-    log 'BUILD ' + (success ? 'PASSED!' : 'FAILED!')
+    if success?
+      log.info 'BUILD SUCCESSFUL!'
+    else
+      log.error 'BUILD FAILED!'
+    end
   end
 
 private
   def run?
+    log.info 'Checking Git...'
     `cd #{working_dir} && git pull origin #{branch || 'master'}`.match(/Already up-to-date./).nil?
   end
 
   def rake(cmd)
     cmd = "cd #{working_dir} && #{cmd} 2>&1"
-    log cmd, 'RUN '
+    log.info cmd, 'RUN '
     output = `#{cmd}`
     exitstatus = $?.exitstatus
-    log output, 'RAKE'
+    log.info output, 'RAKE'
     exitstatus == 0
-  end
-
-  def log(output, cmd = nil)
-    puts (cmd ? "[#{cmd}] " : '') + "#{output}"
   end
 end
 

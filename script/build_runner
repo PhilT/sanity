@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
-#require 'rubygems'
 require 'lib/build'
 
 build = Build.new('/home/phil/github/wheel2')
-build.run
+
+loop do
+  build.run
+  sleep(30)
+end
 
