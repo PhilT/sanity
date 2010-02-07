@@ -9,13 +9,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100203025923) do
+ActiveRecord::Schema.define(:version => 20100203090524) do
+
+  create_table "builds", :force => true do |t|
+    t.string   "commit_hash"
+    t.datetime "committed_at"
+    t.text     "commit_message"
+    t.text     "changed_files"
+    t.string   "author"
+    t.text     "output"
+    t.string   "state"
+    t.integer  "project_id"
+    t.datetime "completed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "path"
     t.string   "git"
-    t.string   "branch"
+    t.string   "excluded_branches"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

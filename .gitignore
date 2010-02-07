@@ -1,0 +1,6 @@
+*.log
+tmp/*
+*.css
+*.sqlite3
+spec/javascripts/fixtures/*.html
+

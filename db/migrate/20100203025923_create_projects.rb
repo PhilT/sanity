@@ -4,7 +4,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :name
       t.string :path
       t.string :git
-      t.string :branch
+      t.string :excluded_branches
 
       t.timestamps
     end

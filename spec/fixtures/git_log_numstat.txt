@@ -1,0 +1,21 @@
+commit 6c59a90cb8a31442276e808ca745a35311d244bf
+Author: A Developer <phil@example.com>
+Date:   Wed Feb 3 04:59:49 2010 +0000
+
+    This is the commit message. It can be as long as you like
+    and have new lines. It's indented to show where it finishes.
+
+3	2	db/migrate/20100203025923_create_projects.rb
+2	2	db/schema.rb
+4	1	db/seeds.rb
+18	10	lib/build.rb
+2	2	script/build_runner
+
+commit 6c59a90cb8a31442276e808ca745a35311d244be
+Author: A Developer <phil@example.com>
+Date:   Wed Feb 3 03:59:11 2010 +0000
+
+    Some arbitary commit message
+
+18	10	lib/build.rb
+
