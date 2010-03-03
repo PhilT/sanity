@@ -2,9 +2,11 @@ class Build < ActiveRecord::Base
   belongs_to :project
 
   def self.run!(project)
-    range = Build.last.commit_hash + '..HEAD' if Build.count > 0
-    stat_output = CmdLine.new.execute("git log --numstat #{range}")
-    stat_output.split(/^commit /).reverse.each do |details|
+    range = project.builds.last.commit_hash + '..HEAD' if project.builds.count > 0
+    cmd = CmdLine.new
+    cmd.execute("git log --numstat #{range}")
+    stat_output = cmd.output
+    stat_output.split(/^commit /).reverse[0..-2].each do |details|
       build = new(:project => project)
       build.parse_commit(details) unless details.empty?
       build.save
@@ -13,9 +15,15 @@ class Build < ActiveRecord::Base
   end
 
   def run
+    self.success = true
     COMMANDS.each do |cmd|
-      break unless CmdLine.new.execute("cd #{project.path} && #{cmd}")
+      if !CmdLine.new.execute("cd #{project.path} && #{cmd}")
+        self.success = false
+        break
+      end
     end
+    touch :completed_at
+    save
   end
 
   def started_at
