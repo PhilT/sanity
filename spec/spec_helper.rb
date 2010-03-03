@@ -22,3 +22,5 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 end
 
+COMMANDS = File.read(File.join('config/commands')).split("\n")
+

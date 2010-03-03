@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'daemons'
-require 'lib/wheel'
 require 'active_record'
 require 'yaml'
 require 'logger'
@@ -16,8 +15,7 @@ require File.join(APP_ROOT, 'app/models/build')
 db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['development']
 db_config['database'] = File.join(APP_ROOT, db_config['database'])
 ActiveRecord::Base.establish_connection(db_config)
-COMMANDS = YAML::load(File.open(File.join(APP_ROOT, 'config/commands.yml')))
-
+COMMANDS = File.read(File.join('config/commands')).split("\n")
 
 Daemons.run_proc('build_runner') do
   ActiveRecord::Base.logger.info 'Starting daemons...'

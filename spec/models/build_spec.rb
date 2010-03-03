@@ -10,7 +10,8 @@ describe Build do
   end
 
   it 'should parse git log --stat messages' do
-    build = Build.new
+    Build.run!(Factory(:project))
+    build = Build.last
     build.commit_hash.should == '6c59a90cb8a31442276e808ca745a35311d244bf'
     build.author.should == 'A Developer <phil@example.com>'
     build.committed_at.should == DateTime.new(2010, 2, 3, 4, 59, 49)
@@ -26,7 +27,12 @@ describe Build do
   end
 
   it 'should create a new build for each new commit' do
+    proc { Build.run! }.should change(Build, :count).by(2)
+  end
 
+  it 'should have a completed date when complete' do
+    build = Build.new
+    proc { build.run }.should change(build, :completed_at).from(nil).to(DateTime.now)
   end
 
   it 'should use created_at for started_at' do

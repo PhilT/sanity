@@ -2,7 +2,7 @@ class Project < ActiveRecord::Base
   has_many :builds
 
   def check
-    Build.run!(:project => self) if changed?
+    Build.run!(self) if changed?
   end
 
 private

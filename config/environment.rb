@@ -5,7 +5,6 @@ require File.join(File.dirname(__FILE__), 'boot')
 Rails::Initializer.run do |config|
   config.gem "sqlite3-ruby", :lib => "sqlite3"
   config.gem 'haml'
-  config.gem 'aasm'
 
   config.time_zone = 'UTC'
 end

@@ -7,9 +7,9 @@ class CreateBuilds < ActiveRecord::Migration
       t.text :changed_files
       t.string :author
       t.text :output
-      t.string :state
       t.integer :project_id
       t.datetime :completed_at
+      t.boolean :success
 
       t.timestamps
     end

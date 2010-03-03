@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(:version => 20100203090524) do
     t.text     "changed_files"
     t.string   "author"
     t.text     "output"
-    t.string   "state"
     t.integer  "project_id"
     t.datetime "completed_at"
+    t.boolean  "success"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

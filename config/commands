@@ -1,0 +1,6 @@
+rake gems:install db:reset RAILS_ENV=test
+rake db:reset db:test:prepare default test:javascripts
+rm rerun.txt && cucumber
+rake watir
+rake spec:rcov
+
