@@ -6,27 +6,24 @@ require 'yaml'
 require 'logger'
 
 APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
-ActiveRecord::Base.logger = Logger.new(File.join(APP_ROOT, 'log', File.open('build.log', 'a')))
-ActiveRecord.colorize_logging = true
+ActiveRecord::Base.logger = Logger.new(File.join(APP_ROOT, 'log', 'build.log'))
 
 require File.join(APP_ROOT, 'app/models/project')
 require File.join(APP_ROOT, 'app/models/build')
+require File.join(APP_ROOT, 'lib/cmd_line')
 
 db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['development']
 db_config['database'] = File.join(APP_ROOT, db_config['database'])
 ActiveRecord::Base.establish_connection(db_config)
 COMMANDS = File.read(File.join('config/commands')).split("\n")
 
-Daemons.run_proc('build_runner') do
-  ActiveRecord::Base.logger.info 'Starting daemons...'
-
-  loop do
-    begin
-      Project.all.each {|project|project.check}
-    rescue Exception => e
-      ActiveRecord::Base.logger.error e
-    end
-    sleep(360)
+puts "Starting Sanity..."
+loop do
+  begin
+    Project.all.each {|project|project.check}
+  rescue Exception => e
+    puts e.inspect
   end
+  sleep(360)
 end
 
