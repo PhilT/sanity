@@ -1,0 +1,9 @@
+remote: Counting objects: 379, done.
+remote: Compressing objects: 100% (140/140), done.
+remote: Total 339 (delta 226), reused 292 (delta 190)
+Receiving objects: 100% (339/339), 37.80 KiB, done.
+Resolving deltas: 100% (226/226), completed with 15 local objects.
+From git@github.com:PhilT/sanity
+   919bada..a1d00ae  master     -> origin/master
+ * [new branch]      something    -> origin/something
+
