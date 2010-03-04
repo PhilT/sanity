@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
 
   def check
     cmd = CmdLine.new
-    cmd.execute("cd #{path} && git clean -fdx && git checkout -f && git fetch")
+    cmd.execute("cd #{working_dir} && git clean -fdx && git checkout -f && git fetch")
     branches = cmd.output.scan(/origin\/.+$/)
     excluded = excluded_branches.split(',')
     branches.each do |branch|

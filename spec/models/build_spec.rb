@@ -8,8 +8,8 @@ describe Build do
     @git_log_stat = File.read('spec/fixtures/git_log_numstat.txt')
     @mock_cmd_line.stub!(:execute).with('git log --numstat ').and_return(true)
     @mock_cmd_line.stub!(:output).and_return(@git_log_stat)
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.path} && #{COMMANDS[0]}").and_return(true)
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.path} && #{COMMANDS[1]}").and_return(true)
+    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(true)
+    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[1]}").and_return(true)
   end
 
   it 'should parse git log --stat messages' do
@@ -45,7 +45,7 @@ describe Build do
   end
 
   it 'should set success flag to false when a command fails' do
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.path} && #{COMMANDS[0]}").and_return(false)
+    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(false)
     Build.run!(@project)
     Build.last.success?.should be_false
   end

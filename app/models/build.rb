@@ -17,7 +17,7 @@ class Build < ActiveRecord::Base
   def run
     self.success = true
     COMMANDS.each do |cmd|
-      if !CmdLine.new.execute("cd #{project.path} && #{cmd}")
+      if !CmdLine.new.execute("cd #{project.working_dir} && #{cmd}")
         self.success = false
         break
       end
