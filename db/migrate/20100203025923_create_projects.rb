@@ -3,7 +3,7 @@ class CreateProjects < ActiveRecord::Migration
     create_table :projects do |t|
       t.string :name
       t.string :working_dir
-      t.string :git
+      t.string :clone_from
       t.string :excluded_branches
 
       t.timestamps

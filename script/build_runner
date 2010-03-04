@@ -5,6 +5,7 @@ require 'active_record'
 require 'yaml'
 require 'logger'
 
+
 APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
 ActiveRecord::Base.logger = Logger.new(File.join(APP_ROOT, 'log', 'build.log'))
 
@@ -16,6 +17,9 @@ db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['d
 db_config['database'] = File.join(APP_ROOT, db_config['database'])
 ActiveRecord::Base.establish_connection(db_config)
 COMMANDS = File.read(File.join('config/commands')).split("\n")
+
+puts "Cloning repositories..."
+Project.all.each {|project|project.prepare}
 
 puts "Starting Sanity..."
 loop do
