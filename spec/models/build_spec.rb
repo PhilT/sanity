@@ -5,7 +5,7 @@ describe Build do
     @project = Factory(:project)
     @mock_cmd_line = mock(CmdLine)
     CmdLine.stub!(:new).and_return @mock_cmd_line
-    @git_log_stat = IO.readlines('spec/fixtures/git_log_numstat.txt','').to_s
+    @git_log_stat = File.read('spec/fixtures/git_log_numstat.txt')
     @mock_cmd_line.stub!(:execute).with('git log --numstat ').and_return(true)
     @mock_cmd_line.stub!(:output).and_return(@git_log_stat)
     @mock_cmd_line.stub!(:execute).with("cd #{@project.path} && #{COMMANDS[0]}").and_return(true)

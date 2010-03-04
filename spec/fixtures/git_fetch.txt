@@ -6,4 +6,5 @@ Resolving deltas: 100% (226/226), completed with 15 local objects.
 From git@github.com:PhilT/sanity
    919bada..a1d00ae  master     -> origin/master
  * [new branch]      something    -> origin/something
+ * [new branch]      exclude    -> origin/excluded_branch
 
