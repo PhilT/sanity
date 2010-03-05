@@ -55,8 +55,14 @@ describe Build do
       @build = Build.new(:project => @project, :branch => @branch)
     end
 
+    it 'should include output' do
+      @build.run
+      @build.output.should == "commit 6c59a90cb8a31442276e808ca745a35311d244bf\nAuthor: A Developer <phil@example.com>\nDate:   Wed Feb 3 04:59:49 2010 +0000\n\n    This is the commit message. It can be as long as you like\n    and have new lines. It's indented to show where it finishes.\n\n3\t2\tdb/migrate/20100203025923_create_projects.rb\n2\t2\tdb/schema.rb\n4\t1\tdb/seeds.rb\n18\t10\tlib/build.rb\n2\t2\tscript/build_runner\n\ncommit 6c59a90cb8a31442276e808ca745a35311d244be\nAuthor: A Developer <phil@example.com>\nDate:   Wed Feb 3 03:59:11 2010 +0000\n\n    Some arbitary commit message\n\n18\t10\tlib/build.rb\n\n\n\n"
+
+    end
+
     it 'should switch to working_dir when running command' do
-      @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && ").and_return(true)
+      @mock_cmd_line.should_receive(:execute).with("cd #{@project.working_dir} && this is what will be run").and_return(true)
       @build.run
     end
 
