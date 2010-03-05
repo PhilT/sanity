@@ -9,6 +9,8 @@ describe Build do
     @git_log_stat = File.read('spec/fixtures/git_log_numstat.txt')
     @mock_cmd_line.stub!(:execute).with('git log --numstat ').and_return(true)
     @mock_cmd_line.stub!(:output).and_return(@git_log_stat)
+    @mock_cmd_line.stub!(:execute).and_return(false)
+    @mock_cmd_line.stub!(:success?).and_return(false)
     @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(true)
     @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[1]}").and_return(true)
   end
@@ -44,26 +46,38 @@ describe Build do
     proc { Build.run!(@project, @branch) }.should change(Build, :count).by(2)
   end
 
-  it 'should have a completed date when complete' do
-    Build.run!(@project, @branch)
-    Build.last.completed_at.to_date.should == Date.today
-  end
-
-  it 'should set success flag when complete' do
-    Build.run!(@project, @branch)
-    Build.last.success?.should be_true
-  end
-
-  it 'should set success flag to false when a command fails' do
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(false)
-    Build.run!(@project, @branch)
-    Build.last.success?.should be_false
-  end
-
   it 'should use created_at for started_at' do
     build = Build.new
     build.stub!(:created_at).and_return('creation ')
     build.started_at.should == build.created_at
   end
+
+  describe 'run' do
+    before(:each) do
+      @build = Build.new(:project => @project, :branch => @branch)
+    end
+
+    it 'should switch to working_dir when running command' do
+      @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(true)
+      @build.run
+    end
+
+    it 'should have a completed date when complete' do
+      @build.run
+      @build.completed_at.to_date.should == Date.today
+    end
+
+    it 'should set success flag when complete' do
+      @mock_cmd_line.stub!(:success?).and_return(true)
+      @build.run
+      @build.success?.should be_true
+    end
+
+    it 'should set success flag to false when a command fails' do
+      @build.run
+      @build.success?.should be_false
+    end
+  end
+
 end
 

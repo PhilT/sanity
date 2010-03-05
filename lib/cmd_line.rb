@@ -5,11 +5,13 @@ class CmdLine
   end
 
   def execute(cmd)
+    failure_text = cmd.match('rake')? /rake aborted!/ : /not found/
     log "=== RUN #{cmd} ==="
-    @output = `#{cmd} 2>&1`
-    exitstatus = $?.exitstatus
+    system "#{cmd} 2>&1 | tee tmp/cmd.out"
+    @output = File.read('tmp/cmd.out')
+    log(@output)
     log "=== END #{cmd} ===\n"
-    @success = exitstatus == 0
+    @success = (@output =~ failure_text).nil?
   end
 
   def success?
