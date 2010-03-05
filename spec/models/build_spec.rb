@@ -38,7 +38,7 @@ describe Build do
     commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
     previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => 'anotherbranch')
 
-    @mock_cmd_line.should_receive(:execute).with("git log --numstat ").and_return(true)
+    @mock_cmd_line.should_receive(:execute).with("git log --numstat -1").and_return(true)
     Build.run!(@project, @branch)
   end
 

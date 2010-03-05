@@ -10,7 +10,6 @@ class CmdLine
     cmd_out = File.expand_path('tmp/cmd.out')
     system "#{cmd} 2>&1 | tee #{cmd_out}"
     @output = File.read(cmd_out)
-    log(@output)
     log "=== END #{cmd} ===\n\n"
     @success = (@output =~ failure_text).nil?
   end

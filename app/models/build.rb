@@ -3,7 +3,7 @@ class Build < ActiveRecord::Base
 
   def self.run!(project, branch)
     build = project.builds.last(:conditions => {:branch => branch})
-    range = build.commit_hash + '..HEAD' if build
+    range = build ? build.commit_hash + '..HEAD' : '-1'
     cmd = CmdLine.new
     cmd.execute("git log --numstat #{range}")
     stat_output = cmd.output
