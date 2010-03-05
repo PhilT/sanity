@@ -1,13 +1,14 @@
 class Build < ActiveRecord::Base
   belongs_to :project
 
-  def self.run!(project)
-    range = project.builds.last.commit_hash + '..HEAD' if project.builds.count > 0
+  def self.run!(project, branch)
+    build = project.builds.last(:conditions => {:branch => branch})
+    range = build.commit_hash + '..HEAD' if build
     cmd = CmdLine.new
     cmd.execute("git log --numstat #{range}")
     stat_output = cmd.output
     stat_output.split(/^commit /).reverse[0..-2].each do |details|
-      build = new(:project => project)
+      build = new(:project => project, :branch => branch)
       build.parse_commit(details) unless details.empty?
       build.save
       build.run

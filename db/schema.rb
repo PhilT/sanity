@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20100203090524) do
     t.boolean  "success"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "branch"
   end
 
   create_table "projects", :force => true do |t|

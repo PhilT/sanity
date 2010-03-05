@@ -8,7 +8,7 @@ class CmdLine
     log "=== RUN #{cmd} ==="
     @output = `#{cmd} 2>&1`
     exitstatus = $?.exitstatus
-    log "=== END #{cmd} ==="
+    log "=== END #{cmd} ===\n"
     @success = exitstatus == 0
   end
 

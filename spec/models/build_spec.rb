@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Build do
   before(:each) do
     @project = Factory(:project)
+    @branch = 'branch'
     @mock_cmd_line = mock(CmdLine)
     CmdLine.stub!(:new).and_return @mock_cmd_line
     @git_log_stat = File.read('spec/fixtures/git_log_numstat.txt')
@@ -12,9 +13,10 @@ describe Build do
     @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[1]}").and_return(true)
   end
 
-  it 'should parse git log --stat messages' do
-    Build.run!(@project)
+  it 'should parse git log --numstat messages' do
+    Build.run!(@project, @branch)
     build = Build.last
+    build.branch.should == @branch
     build.commit_hash.should == '6c59a90cb8a31442276e808ca745a35311d244bf'
     build.author.should == 'A Developer <phil@example.com>'
     build.committed_at.should == DateTime.new(2010, 2, 3, 4, 59, 49)
@@ -24,29 +26,37 @@ describe Build do
 
   it 'should check for commits from the last one in the builds table' do
     commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
-    previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project)
+    previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => @branch)
 
     @mock_cmd_line.should_receive(:execute).with("git log --numstat #{commit_hash}..HEAD").and_return(true)
-    Build.run!(@project)
+    Build.run!(@project, @branch)
+  end
+
+  it 'should not find previous build from a different branch' do
+    commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
+    previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => 'anotherbranch')
+
+    @mock_cmd_line.should_receive(:execute).with("git log --numstat ").and_return(true)
+    Build.run!(@project, @branch)
   end
 
   it 'should create a new build for each new commit' do
-    proc { Build.run!(@project) }.should change(Build, :count).by(2)
+    proc { Build.run!(@project, @branch) }.should change(Build, :count).by(2)
   end
 
   it 'should have a completed date when complete' do
-    Build.run!(@project)
+    Build.run!(@project, @branch)
     Build.last.completed_at.to_date.should == Date.today
   end
 
   it 'should set success flag when complete' do
-    Build.run!(@project)
+    Build.run!(@project, @branch)
     Build.last.success?.should be_true
   end
 
   it 'should set success flag to false when a command fails' do
     @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(false)
-    Build.run!(@project)
+    Build.run!(@project, @branch)
     Build.last.success?.should be_false
   end
 

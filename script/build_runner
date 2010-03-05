@@ -23,11 +23,7 @@ Project.all.each {|project|project.prepare}
 
 puts "Starting Sanity..."
 loop do
-  begin
-    Project.all.each {|project|project.check}
-  rescue Exception => e
-    puts e.inspect
-  end
+  Project.all.each {|project|project.check}
   sleep(360)
 end
 

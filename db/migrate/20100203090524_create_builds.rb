@@ -10,6 +10,7 @@ class CreateBuilds < ActiveRecord::Migration
       t.integer :project_id
       t.datetime :completed_at
       t.boolean :success
+      t.string :branch
 
       t.timestamps
     end
