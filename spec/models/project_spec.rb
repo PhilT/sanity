@@ -22,6 +22,12 @@ describe Project do
       @cmd_line_git_fetch.stub!(:output).and_return('')
       Project.new(:excluded_branches => 'origin/excluded_branch', :working_dir => 'path').check
     end
+
+    it 'should not fail to check when no excluded branches are specified' do
+      @cmd_line_git_fetch.stub!(:output).and_return(@git_fetch)
+      Build.stub!(:run!)
+      Project.new(:working_dir => 'path').check
+    end
   end
 
   describe 'prepare' do
