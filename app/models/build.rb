@@ -19,10 +19,10 @@ class Build < ActiveRecord::Base
     self.success = true
     self.output = ''
     COMMANDS.each do |cmd|
-      cmd = CmdLine.new
-      cmd.execute("cd #{project.working_dir} && #{cmd}")
-      self.output += cmd.output + "\n\n"
-      if !cmd.success?
+      cmdline = CmdLine.new
+      cmdline.execute("cd #{project.working_dir} && #{cmd}")
+      self.output += cmdline.output + "\n\n"
+      if !cmdline.success?
         self.success = false
         break
       end
