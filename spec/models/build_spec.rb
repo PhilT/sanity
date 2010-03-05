@@ -11,8 +11,6 @@ describe Build do
     @mock_cmd_line.stub!(:output).and_return(@git_log_stat)
     @mock_cmd_line.stub!(:execute).and_return(false)
     @mock_cmd_line.stub!(:success?).and_return(false)
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(true)
-    @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[1]}").and_return(true)
   end
 
   it 'should parse git log --numstat messages' do
@@ -58,7 +56,7 @@ describe Build do
     end
 
     it 'should switch to working_dir when running command' do
-      @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && #{COMMANDS[0]}").and_return(true)
+      @mock_cmd_line.stub!(:execute).with("cd #{@project.working_dir} && ").and_return(true)
       @build.run
     end
 

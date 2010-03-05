@@ -22,5 +22,3 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 end
 
-COMMANDS = ['this is what will be run', 'another command']
-

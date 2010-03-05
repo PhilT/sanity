@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(:version => 20100203090524) do
     t.integer  "project_id"
     t.datetime "completed_at"
     t.boolean  "success"
+    t.string   "branch"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "branch"
   end
 
   create_table "projects", :force => true do |t|
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20100203090524) do
     t.string   "working_dir"
     t.string   "clone_from"
     t.string   "excluded_branches"
+    t.text     "commands"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

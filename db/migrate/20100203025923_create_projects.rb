@@ -5,6 +5,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :working_dir
       t.string :clone_from
       t.string :excluded_branches
+      t.text :commands
 
       t.timestamps
     end

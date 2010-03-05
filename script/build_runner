@@ -16,7 +16,6 @@ require File.join(APP_ROOT, 'lib/cmd_line')
 db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['development']
 db_config['database'] = File.join(APP_ROOT, db_config['database'])
 ActiveRecord::Base.establish_connection(db_config)
-COMMANDS = File.read(File.join('config/commands')).split("\n")
 
 puts "Cloning repositories..."
 Project.all.each {|project|project.prepare}
