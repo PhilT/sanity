@@ -1,5 +1,6 @@
 rake gems:install db:drop db:create RAILS_ENV=test
 rake db:drop db:create db:schema:load
+mkdir tmp
 rake db:test:prepare spec:rcov spec:javascripts
 rm rerun.txt && rake cucumber
 
