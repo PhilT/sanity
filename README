@@ -1,20 +1,18 @@
-Sanity Integration Server
-=========================
+Sanity Build Automation
+=======================
 
-Run your rspec, cucumber, Test::Unit tests tests, integration and Javascript tests and other rake tasks on every branch and every commit of your project.
+Automate the running of your rspec, cucumber, Test::Unit tests tests, integration and Javascript tests and other rake tasks on every branch and every commit of your project.
 
 Features:
 
-* Multiple project support
-* Live Commandline output
-* Web management tool and build status information
-* Exclude branches you don't want to build
-* Builds every commit since last build or the last one (when Sanity first starts)
-
+* Multiple project support [done]
+* Live Commandline output [done]
+* Web management tool and build status information [started]
+* Exclude branches you don't want to build [done]
+* Builds every commit since last build or the last one (when Sanity first starts) [done]
 
 Running
-=======
-
+-------
 Server:
     script/build_server
 

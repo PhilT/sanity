@@ -1,0 +1,20 @@
+%fieldset
+  %ol
+    %li
+      = f.label :name, 'Name (e.g. Sanity):'
+      = f.text_field :name
+    %li
+      = f.label :working_dir, 'Working directory (e.g. /home/user/builds/sanity):'
+      = f.text_field :working_dir
+    %li
+      = f.label :clone_from, 'Clone from (e.g. git@github.com:PhilT/sanity.git):'
+      = f.text_field :clone_from
+    %li
+      = f.label :excluded_branches, 'Excluded branches (separate with commas):'
+      = f.text_field :excluded_branches
+    %li
+      = f.label :commands, 'Commands (e.g. rake spec:rcov):'
+      = f.text_area :commands
+    %li
+      = f.submit 'Save'
+

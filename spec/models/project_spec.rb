@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe Project do
+  describe 'last_build_status' do
+    it 'should get the last build' do
+      project = Factory(:project)
+      build = Factory(:build)
+      project.builds << build
+      project.last_build_status.should == "Last build ran 3 minutes ago"
+    end
+  end
+
   describe 'check' do
     before(:each) do
       @git_fetch = File.read('spec/fixtures/git_fetch.txt')

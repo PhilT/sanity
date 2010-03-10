@@ -1,0 +1,7 @@
+%ul
+  %h2 fkdhf
+  - @projects.each do |project|
+    %li
+      = project.name
+      = last_build_status(project)
+

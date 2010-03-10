@@ -29,6 +29,7 @@ config.action_mailer.delivery_method = :test
 
 config.gem "factory_girl"
 config.gem "launchy", :lib => false
+config.gem 'nokogiri', :version => '1.4.1'
 config.gem "rspec", :lib => false
 config.gem "rspec-rails", :lib => false
 config.gem "test-unit", :version => '1.2.3', :lib => false

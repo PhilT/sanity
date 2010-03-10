@@ -9,3 +9,5 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
 end
 
+Sass::Plugin.options[:template_location] = RAILS_ROOT + '/app/styles' if defined?(Sass)
+
