@@ -5,11 +5,10 @@ class CmdLine
   end
 
   def execute(cmd)
-    log "=== RUN #{cmd} ==="
     @output = `#{cmd} 2>&1`
-    log @output
+    log cmd + (@output.blank? ? ' [no response]' : '')
+    log @output + "\n\n" unless @output.blank?
     exitstatus = $?.exitstatus
-    log "=== END #{cmd} ===\n"
     @success = exitstatus == 0
   end
 

@@ -5,6 +5,10 @@
     = javascript_include_tag 'lib/application', 'application'
     = stylesheet_link_tag 'reset', 'application'
   %body
-    %div#title Sanity. Build Automation
-    = yield
+    %div#header
+      %div#title Sanity. Build Automation
+      %ul#menu
+        %li= link_to 'projects', projects_path
+    %div#content
+      = yield
 

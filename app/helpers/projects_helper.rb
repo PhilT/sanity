@@ -1,7 +1,11 @@
 module ProjectsHelper
-  def last_build_status(project)
-    build = project.builds.last
-    build.nil? ? "not built yet" : "Last build ran #{time_ago_in_words(build.created_at)} #{build.success? ? 'successfully' : 'with errors'}"
+  def build_class(build)
+    build.success? ? 'build_successful' : 'build_failed'
+  end
+
+  def last_build_status(build)
+    status = build.success? ? 'successfully' : 'with errors'
+    build.nil? ? "not built yet" : "Last build ran #{status} #{time_ago_in_words(build.created_at)} ago"
   end
 end
 

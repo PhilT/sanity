@@ -1,23 +1,33 @@
 =border
-  :border-bottom 2px solid #cce
+  :border-bottom 2px solid #aca
 
 
 body
   :color #333
 
-#title
-  :background url(/images/arrow_refresh.png) #eee no-repeat 5px 3px
+#header
+  :background url(/images/arrow_refresh.png) #eee no-repeat 5px 5px
   :font-weight bold
   :color #555
+  :height 20px
   :padding 4px
   :margin-bottom 5px
   :padding-left 30px
   +border
 
+#title
+  :float left
+
+#menu
+  :float right
+
+#content
+  :clear both
+
 h2
   :margin auto
   :width 402px
-  :font-size 130%
+  :font-size 140%
   :background #eee
   :text-align center
   :margin-bottom 5px
@@ -30,19 +40,32 @@ fieldset
   ol
     li
       :background #eee
-      :padding 5px
+      :padding 20px
       :margin-bottom 5px
       +border
       label
         :display block
-        :font-weight bold
       input
-        :width 400px
+        :padding 5px 0
+        :width 370px
       textarea
-        :width 396px
-        :height 200px
+        :width 366px
+        :height 120px
       input[type=submit]
-        :width 402px
+        :width 372px
 input[type=text], textarea
-  :border 1px solid gray
+  :border 1px solid #aaa
+
+a, a:hover, a:visited
+  :text-decoration none
+  :color #696
+
+.build_successful, .build_failed
+  +border
+  :padding 20px
+  :margin 20px
+.build_successful
+  :background #dfd
+.build_failed
+  :background #fdd
 

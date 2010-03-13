@@ -1,6 +1,9 @@
 %ul
   - @projects.each do |project|
-    %li
-      = project.name
-      = last_build_status(project)
+    - build = project.builds.last
+    %li{:class => build_class(build)}
+      %h3
+        = project.name
+        == (#{project.clone_from})
+      = last_build_status(build)
 

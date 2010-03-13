@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    Project.create(params[:project])
+    Project.create(params[:project]).prepare
     redirect_to project_path(project)
   end
 
