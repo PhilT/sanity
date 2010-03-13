@@ -7,7 +7,7 @@ class CmdLine
   def execute(cmd)
     log "=== RUN #{cmd} ==="
     @output = `#{cmd} 2>&1`
-    puts @output
+    log @output
     exitstatus = $?.exitstatus
     log "=== END #{cmd} ===\n"
     @success = exitstatus == 0
