@@ -18,7 +18,7 @@ class Build < ActiveRecord::Base
 
   def checkout
     cmdline = CmdLine.new
-    cmdline.execute("cd #{project.working_dir} && git checkout #{branch}")
+    cmdline.execute("cd #{project.working_dir} && git checkout #{branch} && git checkout #{self.commit_hash}")
   end
 
   def run
