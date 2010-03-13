@@ -24,30 +24,40 @@ describe Build do
     build.changed_files.should == 'db/migrate/20100203025923_create_projects.rb,db/schema.rb,db/seeds.rb,lib/build.rb,script/build_runner'
   end
 
-  it 'should check for commits from the last one in the builds table' do
-    commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
-    previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => @branch)
+  describe 'run!' do
 
-    @mock_cmd_line.should_receive(:execute).with("git log --numstat #{commit_hash}..HEAD").and_return(true)
-    Build.run!(@project, @branch)
-  end
+    it 'should check for commits from the last one in the builds table' do
+      commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
+      previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => @branch)
 
-  it 'should not find previous build from a different branch' do
-    commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
-    previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => 'anotherbranch')
+      @mock_cmd_line.should_receive(:execute).with("git log --numstat #{commit_hash}..HEAD").and_return(true)
+      Build.run!(@project, @branch)
+    end
 
-    @mock_cmd_line.should_receive(:execute).with("git log --numstat -1").and_return(true)
-    Build.run!(@project, @branch)
-  end
+    it 'should not find previous build from a different branch' do
+      commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
+      previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => 'anotherbranch')
 
-  it 'should create a new build for each new commit' do
-    proc { Build.run!(@project, @branch) }.should change(Build, :count).by(2)
-  end
+      @mock_cmd_line.should_receive(:execute).with("git log --numstat -1").and_return(true)
+      Build.run!(@project, @branch)
+    end
 
-  it 'should use created_at for started_at' do
-    build = Build.new
-    build.stub!(:created_at).and_return('creation ')
-    build.started_at.should == build.created_at
+    it 'should create a new build for each new commit' do
+      proc { Build.run!(@project, @branch) }.should change(Build, :count).by(2)
+    end
+
+    it 'should use created_at for started_at' do
+      build = Build.new
+      build.stub!(:created_at).and_return('creation ')
+      build.started_at.should == build.created_at
+    end
+
+    it 'should checkout' do
+      mock_build = mock_model Build, :parse_commit => nil, :save => nil, :run => nil
+      mock_build.should_receive(:checkout).twice
+      Build.stub!(:new).and_return(mock_build)
+      Build.run!(@project, @branch)
+    end
   end
 
   describe 'run' do
@@ -80,6 +90,13 @@ describe Build do
     it 'should set success flag to false when a command fails' do
       @build.run
       @build.success?.should be_false
+    end
+
+  end
+
+  describe 'checkout' do
+    it 'should ' do
+
     end
   end
 

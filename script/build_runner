@@ -23,6 +23,6 @@ Project.all.each {|project|project.prepare}
 puts "Starting Sanity..."
 loop do
   Project.all.each {|project|project.check}
-  sleep(300)
+  sleep(30)
 end
 
