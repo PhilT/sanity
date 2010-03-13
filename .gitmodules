@@ -1,3 +1,0 @@
-[submodule "vendor/plugins/should_be_valid_xhtml"]
-	path = vendor/plugins/should_be_valid_xhtml
-	url = git@github.com:PhilT/should_be_valid_xhtml.git
