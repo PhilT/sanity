@@ -20,6 +20,8 @@ body
 
 #menu
   :float right
+  li
+    :border-left 2px solid #888
 
 #content
   :clear both
@@ -58,7 +60,11 @@ input[type=text], textarea
 
 a, a:hover, a:visited
   :text-decoration none
-  :color #696
+  :color #000
+  :padding 5px
+
+a:hover
+  :background #9d9
 
 .build_successful, .build_failed
   +border
@@ -68,4 +74,5 @@ a, a:hover, a:visited
   :background #dfd
 .build_failed
   :background #fdd
+  :border-color #caa
 
