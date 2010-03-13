@@ -11,8 +11,14 @@ class Build < ActiveRecord::Base
       build = new(:project => project, :branch => branch)
       build.parse_commit(details) unless details.empty?
       build.save
+      build.checkout
       build.run
     end
+  end
+
+  def checkout
+    cmdline = CmdLine.new
+    cmdline.execute("cd #{project.working_dir} && git checkout #{branch}")
   end
 
   def run
