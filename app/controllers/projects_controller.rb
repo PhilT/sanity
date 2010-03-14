@@ -1,6 +1,10 @@
 class ProjectsController < ApplicationController
   def index
     @projects = Project.all
+    respond_to do |format|
+      format.html
+      format.js {render :action => :index, :layout => false}
+    end
   end
 
   def show

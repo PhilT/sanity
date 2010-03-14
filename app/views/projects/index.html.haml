@@ -1,9 +1,11 @@
 %ul
   - @projects.each do |project|
     - build = project.builds.last
-    %li{:class => build_class(build)}
+    %li{:class => build_class(build) + ' build'}
       %h3
         = project.name
-        == (#{project.clone_from})
+        %span== (#{project.clone_from})
       = last_build_status(build)
+      %ul
+        %li= link_to 'edit', edit_project_path(project)
 
