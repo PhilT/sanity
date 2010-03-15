@@ -4,3 +4,4 @@ tmp/*
 *.sqlite3
 spec/javascripts/fixtures/*.html
 
+coverage

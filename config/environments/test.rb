@@ -32,6 +32,7 @@ config.gem "launchy", :lib => false
 config.gem 'nokogiri', :version => '1.4.1'
 config.gem "rspec", :lib => false
 config.gem "rspec-rails", :lib => false
+config.gem "rcov", :lib => false
 config.gem "test-unit", :version => '1.2.3', :lib => false
 config.gem "webrat"
 config.gem "ZenTest", :lib => "zentest"

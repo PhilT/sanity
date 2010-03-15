@@ -26,10 +26,14 @@ module ValidaterMatchers
       if File.exists?(cache_file)
         @message = File.read(cache_file)
       else
-        response_body = validate(html)
-        FileUtils.mkdir_p(cache_dir) unless File.exists?(cache_dir)
-        @message = parse(response_body)
-        File.open(cache_file, "w") {|f| f.write(@message)}
+        begin
+          response_body = validate(html)
+          FileUtils.mkdir_p(cache_dir) unless File.exists?(cache_dir)
+          @message = parse(response_body)
+          File.open(cache_file, "w") {|f| f.write(@message)}
+        rescue SocketError
+          @message = ''
+        end
       end
       @message.empty?
     end

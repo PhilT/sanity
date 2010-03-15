@@ -1,14 +1,15 @@
 !!!Strict
 %html{'xmlns' => 'http://www.w3.org/1999/xhtml', 'xml:lang' => 'en'}
   %head
-    %title Sanity. Build Automation
+    %title Sanity. Build Automation.
     = javascript_include_tag 'lib/jquery', 'lib/application', 'application'
     = stylesheet_link_tag 'reset', 'application'
   %body
     %div#header
-      %div#title Sanity. Build Automation
+      %div#title Sanity. Build Automation.
       %ul#menu
         %li= link_to 'projects', projects_path
+        %li= link_to 'new', new_project_path
     %div#content
       = yield
 

@@ -19,8 +19,8 @@ body
   :float left
 
 #menu
-  :float right
   li
+    :float right
     :border-left 2px solid #888
 
 #content
@@ -72,15 +72,28 @@ a, a:hover, a:visited
   :padding 5px
 
 .build
+  :position relative
   +border
   :margin 20px
-  a
-    :height 50px
+
+  a.main
+    :padding 0
+    :height 80px
     :display block
-    :padding 15px
+
+  .detail
+    :position absolute
+    :top 10px
+    :left 10px
+
+  .action
+    :position absolute
+    :top 0
+    :right 0
+
   li.edit
-    :float right
     a
+      :display block
       :padding 20px 5px
       :width 50px
       :height 40px
@@ -91,16 +104,17 @@ a, a:hover, a:visited
       :border-bottom 2px solid #999
       &:hover
         :background #eea
+
 .build_successful
   :background #dfd
-  a
+  a.main
     &:hover
       :background #9d9
 
 .build_failed
   :background #fdd
   :border-color #d99
-  a
+  a.main
     &:hover
       :background #d99
 

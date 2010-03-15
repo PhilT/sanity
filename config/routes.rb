@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :projects do |project|
+  map.resources :projects, :except => [:show] do |project|
     project.resources :builds
   end
 

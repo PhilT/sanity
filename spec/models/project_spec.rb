@@ -32,20 +32,22 @@ describe Project do
 
   describe 'prepare' do
     before(:each) do
+      @mock_cmdline = mock(CmdLine)
+      @mock_cmdline.stub!(:execute)
+      CmdLine.stub!(:new).and_return(@mock_cmdline)
+      @project = Project.new(:working_dir => 'path', :clone_from => 'git_url')
     end
 
     it 'should create working_dir and clone when working_dir does not exist' do
+      @mock_cmdline.should_receive(:execute).with("git clone git_url path").and_return(true)
       File.stub!(:exists?).with('path').and_return(false)
-      mock_cmdline = mock(CmdLine)
-      CmdLine.stub!(:new).and_return(mock_cmdline)
-      mock_cmdline.should_receive(:execute).with("git clone git_url path")
-      Project.new(:working_dir => 'path', :clone_from => 'git_url').prepare
+      @project.prepare.should be_true
     end
 
     it 'should not clone when working_dir exists' do
-      File.should_receive(:exists?).with('path').and_return(true)
-      CmdLine.stub!(:new).and_return(mock(CmdLine))
-      Project.new(:working_dir => 'path', :clone_from => 'git_url').prepare
+      @mock_cmdline.should_not_receive(:execute).with("git clone git_url path")
+      File.stub!(:exists?).with('path').and_return(true)
+      @project.prepare.should be_nil
     end
   end
 end

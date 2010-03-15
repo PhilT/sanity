@@ -1,6 +1,11 @@
 class Project < ActiveRecord::Base
   has_many :builds
 
+  validates_presence_of :name
+  validates_presence_of :working_dir
+  validates_presence_of :clone_from
+  validates_presence_of :commands
+
   def prepare
     cmd = CmdLine.new
     cmd.execute "git clone #{clone_from} #{working_dir}" unless File.exists?(working_dir)

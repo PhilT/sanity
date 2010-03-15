@@ -2,11 +2,13 @@
   - @projects.each do |project|
     - build = project.builds.last
     %li{:class => build_class(build) + ' build'}
-      %ul
-        %li.edit= link_to 'edit', edit_project_path(project)
-      %a{:href => project_builds_path(project)}
-        %div
+      = link_to '', project_builds_path(project), :class => 'main'
+      %ul.detail
+        %li
           %strong= project.name
-          %em== (#{project.clone_from})
-        = last_build_status(build)
+          %em= "(#{project.clone_from})"
+        %li
+          = last_build_status(build)
+      %ul.action
+        %li.edit= link_to 'edit', edit_project_path(project)
 

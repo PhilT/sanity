@@ -1,19 +1,10 @@
 class ProjectsController < ApplicationController
+
   def index
     @projects = Project.all
     respond_to do |format|
       format.html
       format.js {render :action => :index, :layout => false}
-    end
-  end
-
-  def show
-    @project = Project.find(params[:id])
-    if @project.nil?
-      flash[:error] = 'Project not found'
-      redirect_to projects_url
-    else
-      @builds = @project.builds if @project
     end
   end
 
@@ -26,14 +17,23 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    Project.create(params[:project]).prepare
-    redirect_to project_path(project)
+    @project = Project.new(params[:project])
+    save_or_render :new
   end
 
   def update
-    project = Project.find(params[:id])
-    project.update_attributes(params[:project])
-    redirect_to project_path(project)
+    @project = Project.find(params[:id])
+    save_or_render :edit
+  end
+
+  def save_or_render(template)
+    @project.attributes = params[:project]
+    if @project.save
+      @project.prepare
+      redirect_to projects_path
+    else
+      render :action => template
+    end
   end
 end
 

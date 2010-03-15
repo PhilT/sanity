@@ -1,7 +1,7 @@
-Sanity Build Automation
-=======================
+Sanity. Build Automation.
+=========================
 
-Automate the running of your rspec, cucumber, Test::Unit tests tests, integration and Javascript tests and other rake tasks on every branch and every commit of your project.
+Pulls from a Git repository and Automatically runs your rspec, cucumber, Test::Unit, integration and Javascript tests and other rake tasks on every branch and every commit of your project.
 
 Features:
 
@@ -21,4 +21,9 @@ Server:
 
 Web interface:
     script/server
+
+Todo
+----
+* Add detail view to builds index
+* Make sure refresh is only triggered on index pages while idle or keep previously shown detail view on builds
 
