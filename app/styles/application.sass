@@ -38,9 +38,11 @@ h2
 
 h3
   :font-size 130%
-  span
-    :color #777
-    :font-size 80%
+
+li
+  em
+    :color #666
+
 
 fieldset
   :margin auto
@@ -69,23 +71,36 @@ a, a:hover, a:visited
   :color #000
   :padding 5px
 
-a:hover
-  :background #9d9
-
 .build
   +border
-  :padding 20px
   :margin 20px
-  li
+  a
+    :height 50px
+    :display block
+    :padding 15px
+  li.edit
     :float right
     a
-      :padding 2px 5px
-      :background #ddd
+      :padding 20px 5px
+      :width 50px
+      :height 40px
+      :text-align center
+      :font-weight bold
+      :margin 0
+      :background #e5e5e5
+      :border-bottom 2px solid #999
       &:hover
         :background #eea
 .build_successful
   :background #dfd
+  a
+    &:hover
+      :background #9d9
+
 .build_failed
   :background #fdd
-  :border-color #caa
+  :border-color #d99
+  a
+    &:hover
+      :background #d99
 

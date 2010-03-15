@@ -5,9 +5,12 @@ Automate the running of your rspec, cucumber, Test::Unit tests tests, integratio
 
 Features:
 
+* Simple setup (Uses SQLite)
 * Multiple project support [done]
 * Live Commandline output [done]
-* Web management tool and build status information [started]
+* Add projects via a web interface [done]
+* Web based project status [done]
+* Build details view [started]
 * Exclude branches you don't want to build [done]
 * Builds every commit since last build or the last one (when Sanity first starts) [done]
 

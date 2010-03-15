@@ -1,0 +1,16 @@
+%h3= @project.name
+%ul#builds
+  - @builds.each do |build|
+    %li{:class => build_class(build) + ' build'}
+      %a{:href => project_build_path(@project, build)}
+        %div
+          %strong= build.commit_hash[0..6]
+          committed at
+          %strong= build.committed_at
+          == and #{build.success? ? 'succeeded' : 'failed'} at
+          %strong= build.updated_at
+          on branch
+          %strong= build.branch.gsub('origin/', '')
+        %strong= build.author
+        = build.commit_message
+
