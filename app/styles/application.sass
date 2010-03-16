@@ -76,7 +76,7 @@ a, a:hover, a:visited
   +border
   :margin 20px
 
-  a.main
+  .main
     :padding 0
     :height 80px
     :display block
@@ -105,16 +105,25 @@ a, a:hover, a:visited
       &:hover
         :background #eea
 
+.build_notrun
+  :background #ddd
+
+.build_running
+  :background #ddf
+  a.main
+    &:hover
+      :background #bbd
+
 .build_successful
   :background #dfd
   a.main
     &:hover
-      :background #9d9
+      :background #bdb
 
 .build_failed
   :background #fdd
   :border-color #d99
   a.main
     &:hover
-      :background #d99
+      :background #dbb
 

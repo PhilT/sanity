@@ -1,8 +1,11 @@
-%ul#builds
+%ul#projects
   - @projects.each do |project|
     - build = project.builds.last
-    %li{:class => build_class(build) + ' build'}
-      = link_to '', project_builds_path(project), :class => 'main'
+    %li{:class => "#{build_class(build)} build"}
+      - if project.builds.empty?
+        %div.main
+      - else
+        = link_to '', project_builds_path(project), :class => 'main'
       %ul.detail
         %li
           %strong= project.name
