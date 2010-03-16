@@ -26,4 +26,5 @@ Todo
 ----
 * Add detail view to builds index
 * Make sure refresh is only triggered on index pages while idle or keep previously shown detail view on builds
+* Modify builds refresh to just add in new builds
 

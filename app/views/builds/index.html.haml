@@ -2,8 +2,9 @@
 %ul#builds
   - @builds.each do |build|
     %li{:class => build_class(build) + ' build'}
-      %a{:href => project_build_path(@project, build)}
-        %div
+      = link_to '', project_build_path(@project, build), :class => 'main'
+      %ul.detail
+        %li
           %strong= build.commit_hash[0..6]
           committed at
           %strong= build.committed_at
@@ -11,6 +12,7 @@
           %strong= build.updated_at
           on branch
           %strong= build.branch.gsub('origin/', '')
-        %strong= build.author
-        = build.commit_message
+        %li
+          %strong= build.author
+          = build.commit_message
 
