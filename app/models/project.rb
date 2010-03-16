@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  has_many :builds
+  has_many :builds, :order => 'created_at DESC'
 
   validates_presence_of :name
   validates_presence_of :working_dir
