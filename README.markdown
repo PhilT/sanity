@@ -22,3 +22,10 @@ Server:
 Web interface:
     script/server
 
+To do
+-----
+* Refreshes not quite working for builds (duplicated builds)
+* Add styling back onto build running
+* Code coverage has dropped so add more tests
+* Added links to coverage and html formatted rspec tests in builds
+
