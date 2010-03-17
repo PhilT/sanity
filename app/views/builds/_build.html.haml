@@ -1,0 +1,24 @@
+%li{:class => build_class(build) + ' build', :id => build.id}
+  %ul.summary
+    %li
+      %strong= build.commit_hash[0..6]
+      committed at
+      %strong= build.committed_at
+      == and #{status(build)} at
+      %strong= build.updated_at
+      on branch
+      %strong= build.branch.gsub('origin/', '')
+    %li.commit_message
+      %strong= build.author
+      = build.commit_message
+  %ul.detail{:style => 'display: none'}
+    %li
+      Changed:
+      %ul.files
+        = build.changed_files.split(',').collect{|f| "<li>#{f}</li>"}.join("\n")
+    %li
+      Output:
+      %pre.output
+        = build.output
+  %div.more= link_to 'more...', project_build_path(@project, build)
+
