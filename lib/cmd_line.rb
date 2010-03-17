@@ -16,7 +16,6 @@ class CmdLine
     @success
   end
 
-private
   def log(message)
     puts message if @enable_logging
   end

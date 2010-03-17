@@ -8,13 +8,15 @@ class Project < ActiveRecord::Base
 
   def prepare
     cmd = CmdLine.new
+    cmd.log 'Cloning #{clone_from}...'
     cmd.execute "git clone #{clone_from} #{working_dir}" unless File.exists?(working_dir)
   end
 
   def check
     cmdline = CmdLine.new
-    cmd = "cd #{working_dir} && git clean -fdx && git checkout -f && git fetch"
-    if !cmdline.execute cmd
+    if File.exists?(working_dir)
+      cmdline.execute "cd #{working_dir} && git clean -fdx && git checkout -f && git fetch"
+    else
       prepare
       cmdline.execute "cd #{working_dir} && git br -a"
     end

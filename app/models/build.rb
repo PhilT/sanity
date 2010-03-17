@@ -24,7 +24,8 @@ class Build < ActiveRecord::Base
   def run
     self.success = true
     self.output = ''
-    project.commands.split("\n").each do |cmd|
+    project.commands.gsub("\r", '').split("\n").each do |cmd|
+      next if cmd.blank?
       cmdline = CmdLine.new
       cmdline.execute("cd #{project.working_dir} && #{cmd}")
       self.output += cmdline.output + "\n\n"
