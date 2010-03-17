@@ -1,18 +1,4 @@
 %h3= @project.name
 %ul#builds
-  - @builds.each do |build|
-    %li{:class => build_class(build) + ' build'}
-      = link_to '', project_build_path(@project, build), :class => 'main'
-      %ul.detail
-        %li
-          %strong= build.commit_hash[0..6]
-          committed at
-          %strong= build.committed_at
-          == and #{status(build)} at
-          %strong= build.updated_at
-          on branch
-          %strong= build.branch.gsub('origin/', '')
-        %li
-          %strong= build.author
-          = build.commit_message
+  = render :partial => 'build', :collection => @builds
 

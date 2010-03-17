@@ -12,9 +12,14 @@ class Project < ActiveRecord::Base
   end
 
   def check
-    cmd = CmdLine.new
-    cmd.execute "cd #{working_dir} && git clean -fdx && git checkout -f && git fetch"
-    branches = cmd.output.scan(/origin\/.+$/)
+    cmdline = CmdLine.new
+    cmd = "cd #{working_dir} && git clean -fdx && git checkout -f && git fetch"
+    if !cmdline.execute cmd
+      prepare
+      cmdline.execute "cd #{working_dir} && git br -a"
+    end
+
+    branches = cmdline.output.gsub(/origin\/HEAD.+$/, '').scan(/origin\/.+$/)
     excluded = excluded_branches.blank? ? [] : excluded_branches.split(',')
     branches.each do |branch|
       Build.run!(self, branch) unless excluded.include?(branch)

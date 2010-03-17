@@ -127,3 +127,48 @@ a, a:hover, a:visited
     &:hover
       :background #dbb
 
+#builds
+  .build
+    :background none
+    :position static
+    :border-bottom none
+    .summary
+      :padding 10px
+      :height auto
+    .detail
+      :padding 0 10px 5px 10px
+      :background #f5f5f5
+      :position static
+      >li
+        :padding-top 10px
+      .files
+        :margin-left 20px
+        :font 10px "monospace"
+      .output
+        :font 11px "monospace"
+  .commit_message
+    :font-size 90%
+  .more, .less
+    :padding 0
+    :font-size 85%
+    :text-align center
+    a
+      :border-bottom-right-radius 10px
+      :border-bottom-left-radius 10px
+      :padding 0 10px
+
+  .build_successful
+    .summary
+      :background #dfd
+    .more a, .less a
+      :background #cec
+      &:hover
+        :background #f4f197
+  .build_failed
+    .summary
+      :background #fdd
+    .more a, .less a
+      :background #ecc
+      &:hover
+        :background #f4f197
+

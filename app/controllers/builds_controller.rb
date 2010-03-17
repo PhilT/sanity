@@ -2,11 +2,20 @@ class BuildsController < ApplicationController
   before_filter :find_project
 
   def index
-    @builds = @project.builds
+    unless params[:since].blank?
+      last_build = @project.builds.find(params[:since])
+      conditions = "created_at >= '#{last_build.created_at}'"
+    end
+    @builds = @project.builds.all(:conditions => conditions)
     respond_to do |format|
       format.html
-      format.js {render :action => :index, :layout => false}
+      format.js {render :partial => 'build', :collection => @builds}
     end
+  end
+
+  def show
+    build = @project.builds.find(params[:id])
+    render :partial => 'build', :object => build
   end
 
 private
