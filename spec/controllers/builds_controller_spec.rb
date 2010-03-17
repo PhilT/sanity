@@ -10,6 +10,29 @@ describe BuildsController do
       assigns[:project].should == mock_project
       assigns[:builds].should include mock_build
     end
+
+    it 'should assign builds from given build' do
+      created_at = 'some time'
+      mock_build = mock_model(Build, :created_at => created_at)
+      mock_association = mock('builds')
+      mock_association.should_receive(:find).with('2').and_return(mock_build)
+      mock_association.should_receive(:all).with(:conditions => "created_at >= '#{created_at}'")
+      Project.stub!(:find => mock_model(Project, :builds => mock_association))
+
+      get :index, :project_id => 1, :from => '2'
+    end
+  end
+
+  describe 'show' do
+    it 'should render a given build' do
+      mock_build = mock_model(Build)
+      mock_association = mock('builds')
+      mock_association.should_receive(:find).with('2').and_return(mock_build)
+      Project.stub!(:find => mock_model(Project, :builds => mock_association))
+
+      get :show, :project_id => 1, :id => 2
+      response.should render_template('_build')
+    end
   end
 end
 
