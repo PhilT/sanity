@@ -37,7 +37,6 @@ describe ProjectsController do
 
     it 'should create project with valid params' do
       @mock_project.stub!(:save).and_return(true)
-      @mock_project.should_receive(:prepare)
       post :create, :project => {}
       response.should redirect_to(projects_path)
     end
@@ -58,7 +57,6 @@ describe ProjectsController do
 
     it 'should update project with valid params' do
       @mock_project.stub!(:save).and_return(true)
-      @mock_project.should_receive(:prepare)
       post :update, :project => {}, :id => @mock_project.id
       response.should redirect_to(projects_path)
     end

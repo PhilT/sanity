@@ -29,7 +29,6 @@ class ProjectsController < ApplicationController
   def save_or_render(template)
     @project.attributes = params[:project]
     if @project.save
-      @project.prepare
       redirect_to projects_path
     else
       render :action => template
