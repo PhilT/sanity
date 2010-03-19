@@ -1,3 +1,10 @@
+!input_width = 600px
+!textarea_width = !input_width - 4px
+!button_width = !input_width + 2px
+!padding = 20px
+!input_padding = 5px
+!form_width = !input_width + (!padding * 2)
+
 =border
   :border-bottom 2px solid #aca
 
@@ -28,7 +35,7 @@ body
 
 h2
   :margin auto
-  :width 402px
+  :width= !form_width - 10px
   :font-size 140%
   :background #eee
   :text-align center
@@ -43,26 +50,27 @@ li
   em
     :color #666
 
-
 fieldset
   :margin auto
-  :width 412px
+  :width= !form_width
   ol
     li
       :background #eee
-      :padding 20px
+      :padding= !padding
       :margin-bottom 5px
       +border
       label
         :display block
       input
-        :padding 5px 0
-        :width 370px
+        :padding= !input_padding 0
+        :width= !input_width
       textarea
-        :width 366px
+        :width= !textarea_width
         :height 120px
       input[type=submit]
-        :width 372px
+        :width= !button_width
+  .blur
+    :color #aaa
 input[type=text], textarea
   :border 1px solid #aaa
 
