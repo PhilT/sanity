@@ -5,7 +5,7 @@ class Build < ActiveRecord::Base
     build = project.builds.last(:conditions => {:branch => branch})
     range = build ? build.commit_hash + '..HEAD' : '-1'
     cmd = CmdLine.new
-    cmd.execute("git log --numstat #{range}")
+    cmd.execute("git log --numstat #{range}", project.working_dir)
     stat_output = cmd.output
     stat_output.split(/^commit /).reverse[0..-2].each do |details|
       build = new(:project => project, :branch => branch)
@@ -18,7 +18,7 @@ class Build < ActiveRecord::Base
 
   def checkout
     cmdline = CmdLine.new
-    cmdline.execute("cd #{project.working_dir} && git checkout #{branch} && git checkout #{self.commit_hash}")
+    cmdline.execute("git checkout #{branch} 2>&1 && git checkout #{self.commit_hash}", project.working_dir)
   end
 
   def run
@@ -27,7 +27,7 @@ class Build < ActiveRecord::Base
     project.commands.gsub("\r", '').split("\n").each do |cmd|
       next if cmd.blank?
       cmdline = CmdLine.new
-      cmdline.execute("cd #{project.working_dir} && #{cmd}")
+      cmdline.execute(cmd, project.working_dir)
       self.output += cmdline.output + "\n\n"
       if !cmdline.success?
         self.success = false

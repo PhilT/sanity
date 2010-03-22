@@ -5,11 +5,11 @@ require 'active_record'
 require 'yaml'
 require 'logger'
 
-puts "Starting Sanity..."
-
 APP_ROOT = File.join(File.dirname(File.expand_path(__FILE__)), '..')
+
 ActiveRecord::Base.logger = Logger.new(File.join(APP_ROOT, 'log', 'build.log'))
 
+require File.join(APP_ROOT, 'lib/parse_arguments')
 require File.join(APP_ROOT, 'app/models/project')
 require File.join(APP_ROOT, 'app/models/build')
 require File.join(APP_ROOT, 'lib/cmd_line')
@@ -18,8 +18,10 @@ db_config = YAML::load(File.open(File.join(APP_ROOT, 'config/database.yml')))['d
 db_config['database'] = File.join(APP_ROOT, db_config['database'])
 ActiveRecord::Base.establish_connection(db_config)
 
+puts "Starting Sanity..."
+
 loop do
   Project.all.each {|project|project.check}
-  sleep(300)
+  sleep((ARGV[0] || 300).to_i)
 end
 

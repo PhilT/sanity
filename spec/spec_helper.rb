@@ -5,9 +5,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environ
 require 'spec/autorun'
 require 'spec/rails'
 require 'spec/factories'
-
-# Uncomment the next line to use webrat's matchers
-#require 'webrat/integrations/rspec-rails'
+require 'spec/integration'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
@@ -22,5 +20,10 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
   config.include(ValidaterMatchers, :type => :view)
+end
+
+CmdLine.class_eval do
+  def log(message)
+  end
 end
 

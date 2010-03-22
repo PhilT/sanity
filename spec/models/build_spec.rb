@@ -7,7 +7,7 @@ describe Build do
     @mock_cmd_line = mock(CmdLine)
     CmdLine.stub!(:new).and_return @mock_cmd_line
     @git_log_stat = File.read('spec/fixtures/git_log_numstat.txt')
-    @mock_cmd_line.stub!(:execute).with('git log --numstat ').and_return(true)
+    @mock_cmd_line.stub!(:execute).with('git log --numstat ', @project.working_dir).and_return(true)
     @mock_cmd_line.stub!(:output).and_return(@git_log_stat)
     @mock_cmd_line.stub!(:execute).and_return(false)
     @mock_cmd_line.stub!(:success?).and_return(false)
@@ -30,7 +30,7 @@ describe Build do
       commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
       previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => @branch)
 
-      @mock_cmd_line.should_receive(:execute).with("git log --numstat #{commit_hash}..HEAD").and_return(true)
+      @mock_cmd_line.should_receive(:execute).with("git log --numstat #{commit_hash}..HEAD", @project.working_dir).and_return(true)
       Build.run!(@project, @branch)
     end
 
@@ -38,7 +38,7 @@ describe Build do
       commit_hash = '6c59a90cb8a31442276e808ca745a35311d244be'
       previous_build = Factory(:build, :commit_hash => commit_hash, :project => @project, :branch => 'anotherbranch')
 
-      @mock_cmd_line.should_receive(:execute).with("git log --numstat -1").and_return(true)
+      @mock_cmd_line.should_receive(:execute).with("git log --numstat -1", @project.working_dir).and_return(true)
       Build.run!(@project, @branch)
     end
 
@@ -72,7 +72,7 @@ describe Build do
     end
 
     it 'should switch to working_dir when running command' do
-      @mock_cmd_line.should_receive(:execute).with("cd #{@project.working_dir} && this is what will be run").and_return(true)
+      @mock_cmd_line.should_receive(:execute).with("this is what will be run", @project.working_dir).and_return(true)
       @build.run
     end
 

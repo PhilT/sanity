@@ -5,7 +5,7 @@ describe Project do
     before(:each) do
       @git_fetch = File.read('spec/fixtures/git_fetch.txt')
       @cmd_line_git_fetch = mock(CmdLine)
-      @cmd_line_git_fetch.should_receive(:execute).with("cd path && git clean -fdx && git checkout -f && git fetch").and_return(true)
+      @cmd_line_git_fetch.should_receive(:execute).with("git clean -fdx && git checkout -f && git fetch", 'path').and_return(true)
       File.stub!(:exists?).with('path').and_return(true)
       CmdLine.stub!(:new).and_return(@cmd_line_git_fetch)
     end
@@ -40,14 +40,14 @@ describe Project do
       @project = Project.new(:working_dir => 'path', :clone_from => 'git_url')
     end
 
-    it 'should create working_dir and clone when working_dir does not exist' do
-      @mock_cmdline.should_receive(:execute).with("git clone git_url path").and_return(true)
+    it 'should clone when working_dir does not exist' do
+      @mock_cmdline.should_receive(:execute).with("git clone git_url path", nil).and_return(true)
       File.stub!(:exists?).with('path').and_return(false)
       @project.prepare.should be_true
     end
 
     it 'should not clone when working_dir exists' do
-      @mock_cmdline.should_not_receive(:execute).with("git clone git_url path")
+      @mock_cmdline.should_not_receive(:execute).with("git clone git_url path", nil)
       File.stub!(:exists?).with('path').and_return(true)
       @project.prepare.should be_nil
     end
