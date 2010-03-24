@@ -20,7 +20,7 @@ $(function(){
   function checkForNewBuilds(){
     var last_build = $('#builds a').attr('href');
     last_build = last_build.substr(last_build.lastIndexOf('/') + 1);
-    $.get(document.URL + '.js?since=' + last_build, null, prependNewBuilds, 'html');
+    $.get(document.URL + '.js?from=' + last_build, null, prependNewBuilds, 'html');
   }
 
   function prependNewBuilds(data, status){

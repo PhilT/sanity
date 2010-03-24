@@ -2,8 +2,8 @@ class BuildsController < ApplicationController
   before_filter :find_project
 
   def index
-    unless params[:since].blank?
-      last_build = @project.builds.find(params[:since])
+    unless params[:from].blank?
+      last_build = @project.builds.find(params[:from])
       conditions = "created_at >= '#{last_build.created_at}'"
     end
     @builds = @project.builds.all(:conditions => conditions)
