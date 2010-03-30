@@ -9,16 +9,16 @@ class Project < ActiveRecord::Base
   def prepare
     cmd = CmdLine.new
     cmd.log "Cloning #{clone_from}..."
-    cmd.execute "git clone #{clone_from} #{working_dir}", nil unless File.exists?(self.working_dir)
+    cmd.execute "git clone #{clone_from} #{working_dir}", self unless File.exists?(self.working_dir)
   end
 
   def check
     cmdline = CmdLine.new
     if File.exists?(working_dir)
-      cmdline.execute "git clean -fdx && git checkout -f && git fetch", self.working_dir
+      cmdline.execute "git clean -fdx && git checkout -f && git fetch", self
     else
       prepare
-      cmdline.execute "git br -a", self.working_dir
+      cmdline.execute "git br -a", self
     end
 
     branches = cmdline.output.gsub(/origin\/HEAD.+$/, '').scan(/origin\/.+$/)
