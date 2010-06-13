@@ -4,7 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
 require 'spec/autorun'
 require 'spec/rails'
-require 'spec/factories'
+require 'webrat'
 require 'spec/integration'
 
 # Requires supporting files with custom matchers and macros, etc,
